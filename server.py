@@ -48,7 +48,10 @@ while True:
     # Receive filename from client
     filename, client_address = server_socket.recvfrom(1024)
     filename = filename.decode('utf-8').strip()
-
+    if filename.lower() == f'exit':
+            print("--------Closing the server now!------")
+            server_socket.close()
+            break
     print(f"Received filename from client: {filename}")
     
     # Load and display the image
@@ -79,9 +82,10 @@ while True:
                         cv2.putText(img, text, (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2, cv2.LINE_AA)
                     clicked = False
                 if cv2.waitKey(20) & 0xFF == 27:
+                    cv2.destroyAllWindows()
                     break
 
     except FileNotFoundError:
         print(f"Error: File '{filename}' not found")
-server_socket.close()
+
 
