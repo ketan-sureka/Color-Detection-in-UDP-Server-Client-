@@ -13,6 +13,8 @@ while True:
 
     # Check if the user wants to exit
     if filename.lower() == 'exit':
+        client_socket.sendto(filename.encode('utf-8'), (HOST, PORT))
+        print("Thankyou for Color detection process ! Hope to see You again!")
         break
 
     # Send the filename to the server
