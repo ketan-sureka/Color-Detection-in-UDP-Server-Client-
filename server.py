@@ -3,6 +3,7 @@ from PIL import Image
 from io import BytesIO
 import cv2
 import pandas as pd
+from datetime import datetime
 
 # Server configuration
 HOST = '127.0.0.1'
@@ -52,6 +53,10 @@ while True:
     
     # Load and display the image
     try:
+        with open('logs.txt', 'a') as file:
+                    # Write some text to the file
+            current_time = datetime.now().strftime('%H:%M:%S')
+            file.write("\n\n______________________________________________________________________________________\nNew File Recieved : "+filename+ " at " +current_time+ "\n")
         with open(filename, 'rb') as file:
             image_data = file.read()
             image = Image.open(BytesIO(image_data))
@@ -64,6 +69,10 @@ while True:
                 if clicked:
                     cv2.rectangle(img, (20, 20), (750, 60), (b, g, r), -1) 
                     text = getColorName(r, g, b) + ' R=' + str(r) + ' G=' + str(g) + ' B=' + str(b)
+                    # Store Logs
+                    with open('logs.txt', 'a') as file:
+                        current_time = datetime.now().strftime('%H:%M:%S')
+                        file.write(current_time+ " " +text +"\n")
                     if r + g + b >= 600:
                         cv2.putText(img, text, (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 0), 2, cv2.LINE_AA)
                     else:
